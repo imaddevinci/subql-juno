@@ -1,0 +1,124 @@
+specVersion: 1.0.0
+name: juno-subql-starter
+version: 0.0.1
+runner:
+  node:
+    name: "@subql/node-cosmos"
+    version: "*"
+  query:
+    name: "@subql/query"
+    version: "*"
+description: >-
+  This project can be use as a starting point for developing your Cosmos (Juno) based SubQuery project
+repository: https://github.com/subquery/juno-subql-starter
+schema:
+  file: ./schema.graphql
+
+network:
+  chainId: juno-1
+  # This endpoint must be a public non-pruned archive node
+  # Public nodes may be rate limited, which can affect indexing speed
+  # When developing your project we suggest getting a private API key
+  # You can get them from OnFinality for free https://app.onfinality.io
+  # https://documentation.onfinality.io/support/the-enhanced-api-service
+  endpoint: https://rpc.juno.bh.rocks/
+  # Optionally provide the HTTP endpoint of a full chain dictionary to speed up processing
+  dictionary: https://api.subquery.network/sq/subquery/cosmos-juno-dictionary
+  # chainTypes: # This is a beta feature that allows support for any Cosmos chain by importing the correct protobuf messages
+  #  cosmos.slashing.v1beta1:
+  #    file: "./proto/cosmos/slashing/v1beta1/tx.proto"
+  #    messages:
+  #     - "MsgUnjail"
+dataSources:
+  - kind: cosmos/Runtime
+    startBlock: 7693200 # first block on the fourth iteration of juno
+    mapping:
+      file: "./dist/index.js"
+      handlers:
+        # - handler: handleSwapEvent
+        #   kind: cosmos/EventHandler
+        #   filter:
+        #     type: wasm
+        #     messageFilter:
+        #       type: "/cosmwasm.wasm.v1.MsgExecuteContract"
+        #       values:
+        #         contract: "juno1p9z8xe96fyvg3h5gtvnpjjv2u47q6l7sdhg6asmyfgc6q8l8ttgqfvxnxh"
+
+        # - handler: handleSwapEvent
+        #   kind: cosmos/EventHandler
+        #   filter:
+        #     type: wasm
+        #     messageFilter:
+        #       type: "/cosmwasm.wasm.v1.MsgExecuteContract"
+        #       values:
+        #         contract: "juno1v6stcdrvwrthfvcwvlmmzht32ft9g9nw85tthcjqer242xg3nvdq8fjasx"
+
+        - handler: handleSwapEvent
+          kind: cosmos/EventHandler
+          filter:
+           type: wasm
+           messageFilter:
+             type: "/cosmwasm.wasm.v1.MsgExecuteContract"
+              # contractCall field can be specified here too
+              #values: # A set of key/value pairs that are present in the message data
+             contract: "juno1wkjy5wl0pd5xxvwtrx37r7ydkt3dkwvghs00tvvqyd3xnjukah7qpj0vj7"
+            
+        # - handler: handleSwapEvent
+        #   kind: cosmos/EventHandler
+        #   filter:
+        #     type: execute
+        #     messageFilter:
+        #       type: "/cosmwasm.wasm.v1.MsgExecuteContract"
+        #       values:
+        #         contract: "juno1wkjy5wl0pd5xxvwtrx37r7ydkt3dkwvghs00tvvqyd3xnjukah7qpj0vj7"
+
+        # - handler: handleSwapEvent
+        #   kind: cosmos/EventHandler
+        #   filter:
+        #     type: wasm
+        #     messageFilter:
+        #       type: "/cosmwasm.wasm.v1.MsgExecuteContract"
+        #       values:
+        #         contract: "juno1g7ctm7dynjsduf597d8nvt36kwvhfutmzrczdnm00tsz48uryvzqp7p32h"
+        
+        # - handler: handleSwapEvent
+        #   kind: cosmos/EventHandler
+        #   filter:
+        #     type: wasm
+        #     messageFilter:
+        #       type: "/cosmwasm.wasm.v1.MsgExecuteContract"
+        #       values:
+        #         contract: "juno1dwmrkyhed4szdxxk6l0c98hseancjtdet58n77tfhv2as8cdjdlq7vps00"
+
+        # - handler: handleSwapEvent
+        #   kind: cosmos/EventHandler
+        #   filter:
+        #     type: wasm
+        #     messageFilter:
+        #       type: "/cosmwasm.wasm.v1.MsgExecuteContract"
+        #       values:
+        #         contract: "juno160uh2xtegzvc7ekte5x377aud0y40hw75m9l92h7pkqk3l3eg9vqltel48"
+        # Using block handlers slows your project down as they can be executed with each and every block. Only use if you need to
+        # - handler: handleBlock
+        #   kind: cosmos/BlockHandler
+        # Using transaction handlers without filters slows your project down as they can be executed with each and every block
+        # - handler: handleTransaction
+        #   kind: cosmos/TransactionHandler
+        # - handler: handleEvent
+        #   kind: cosmos/EventHandler
+        #   filter:
+        #    type: execute
+        #    messageFilter:
+        #      type: "/cosmwasm.wasm.v1.MsgExecuteContract"
+        #       # contractCall field can be specified here too
+        #       #values: # A set of key/value pairs that are present in the message data
+        #      contract: "juno160uh2xtegzvc7ekte5x377aud0y40hw75m9l92h7pkqk3l3eg9vqltel48"
+        #- handler: handleMessage
+        #  kind: cosmos/MessageHandler
+        #  filter:
+        #    type: "/cosmwasm.wasm.v1.MsgExecuteContract"
+            # Filter to only messages with the provide_liquidity function call
+            #contractCall: "provide_liquidity" # The name of the contract function that was called
+            #values: # A set of key/value pairs that are present in the message data
+            #contract: "juno1v99ehkuetkpf0yxdry8ce92yeqaeaa7lyxr2aagkesrw67wcsn8qxpxay0"
+        
